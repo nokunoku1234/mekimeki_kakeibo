@@ -1,3 +1,4 @@
+import 'package:awesome_icons/awesome_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
@@ -21,16 +22,19 @@ class SetBudgetPage extends StatelessWidget {
         ...buildIncomeList(),
         const SizedBox(height: 25),
         ...buildSpendingList(),
-        Row(
-          textBaseline: TextBaseline.alphabetic,
-          mainAxisAlignment: MainAxisAlignment.end,
-          crossAxisAlignment: CrossAxisAlignment.baseline,
-          children: [
-            const UsefulTxt(),
-            MainText('月に使える金額:'),
-            const SizedBox(width: 5),
-            const UsefulAmountTxt(),
-          ],
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: 15.0),
+          child: Row(
+            textBaseline: TextBaseline.alphabetic,
+            mainAxisAlignment: MainAxisAlignment.end,
+            crossAxisAlignment: CrossAxisAlignment.baseline,
+            children: [
+              const UsefulTxt(),
+              MainText('月に使える金額:'),
+              const SizedBox(width: 5),
+              const UsefulAmountTxt(),
+            ],
+          ),
         )
       ],
     );
@@ -164,6 +168,67 @@ class AmountList extends ConsumerWidget {
     } else {
       historyList = ref.watch(setBudgetProvider.select((value) => value.spendingList));
     }
+
+    late Widget _widget;
+    if(historyList.isEmpty) { //履歴がない時のUI作成
+      const TextStyle style = TextStyle(fontSize: 12, color: OriginalColor.subColor);
+      _widget = Column(
+        children: [
+          Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(8),
+              color: OriginalColor.subColor.shade100,
+            ),
+            padding: const EdgeInsets.symmetric(horizontal: 8),
+            height: listHeight,
+          ),
+          Expanded(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Icon(
+                  FontAwesomeIcons.plusCircle,
+                  color: OriginalColor.materialColor,
+                  size: 20,
+                ),
+                const SizedBox(height: 5,),
+                isIncome ? const Text('収入を登録しよう', style: style,) : const Text('支出を登録しよう', style: style,)
+              ],
+            ),
+          ),
+        ],
+      );
+    } else { //履歴がある時のUI作成
+      _widget = Column(
+        children: List.generate(historyList.length, (index) {
+          final int _amount = historyList[index].amount;
+          return Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(8),
+              color: index % 2 == 0 ? OriginalColor.subColor.shade100 : null,
+            ),
+            padding: const EdgeInsets.symmetric(horizontal: 8),
+            height: listHeight,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Row(
+                  children: [
+                    const Icon(Icons.money),
+                    const SizedBox(width: 5,),
+                    MainText(historyList[index].category)
+                  ],
+                ),
+                isIncome
+                    ? IncomeAmountText(_amount)
+                    : SpendingAmountText(_amount)
+              ],
+            ),
+          );
+        }),
+      );
+    }
+
     return Container(
       width: double.infinity,
       height: height,
@@ -171,36 +236,18 @@ class AmountList extends ConsumerWidget {
           border: Border.all(color: OriginalColor.subColor),
           borderRadius: BorderRadius.circular(8)
       ),
-      child: SingleChildScrollView(
-        physics: const RangeMaintainingScrollPhysics(),
-        child: Column(
-          children: List.generate(historyList.length, (index) {
-            final int _amount = historyList[index].amount;
-            return Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(8),
-                color: index % 2 == 0 ? OriginalColor.subColor.shade100 : null,
-              ),
-              padding: const EdgeInsets.symmetric(horizontal: 8),
-              height: listHeight,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Row(
-                    children: [
-                      const Icon(Icons.money),
-                      const SizedBox(width: 5,),
-                      MainText(historyList[index].category)
-                    ],
-                  ),
-                  isIncome
-                      ? IncomeAmountText(_amount)
-                      : SpendingAmountText(_amount)
-                ],
-              ),
-            );
-          }),
-        ),
+      child: LayoutBuilder( //追加ボタン・文言を中央配置するために実装
+        builder: (context, constraints) {
+          return SingleChildScrollView(
+            physics: const RangeMaintainingScrollPhysics(),
+            child: ConstrainedBox(
+              constraints: BoxConstraints(minHeight: constraints.maxHeight),
+              child: IntrinsicHeight(
+                child: _widget,
+              )
+            )
+          );
+        }
       ),
     );
   }

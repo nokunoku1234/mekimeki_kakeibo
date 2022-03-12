@@ -10,7 +10,7 @@ class HomePage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    print('HomePage');
+    // print('HomePage');
     final List<Widget> screenList = ref.read(homeProvider).screenList;
 
     return Scaffold(
@@ -42,7 +42,7 @@ class Screen extends ConsumerWidget {
 
   @override
   build(BuildContext context, WidgetRef ref) {
-    print('Screen');
+    // print('Screen');
     final List<Widget> _screenList = ref.read(homeProvider).screenList;
     final int _selectedIndex = ref.watch(homeProvider).selectedIndex;
     return _screenList[_selectedIndex];
@@ -55,7 +55,7 @@ class BottomNavItem extends ConsumerWidget {
 
   @override
   build(BuildContext context, WidgetRef ref) {
-    print('BottomNavItem');
+    // print('BottomNavItem');
     final BottomNavItemEntity bottomNavItemEntity = BottomNavItemEntity.bottomNavItems[index];
     final int _selectedIndex = ref.watch(homeProvider).selectedIndex;
     late final Color _color;

@@ -6,34 +6,6 @@ class SetBudgetStateNotifier extends StateNotifier<SetBudgetState> {
   SetBudgetStateNotifier() : super(SetBudgetState(now: DateTime.now()));
 
   void init() {
-    state = state.copyWith(
-      incomeList: [
-        BalanceHistory(
-          title: 'メンタ',
-          category: '給与',
-          icon: 'doll',
-          historyTime: DateTime.now(),
-          amount: 30000
-        ),
-      ],
-      spendingList: [
-        BalanceHistory(
-          title: 'ラーメン',
-          category: '食費',
-          icon: 'dishes',
-          historyTime: DateTime.now(),
-          amount: 800
-        ),
-        BalanceHistory(
-          title: 'ラーメン',
-          category: '食費',
-          icon: 'dishes',
-          historyTime: DateTime.now(),
-          amount: 800
-        ),
-      ]
-    );
-
     List<BalanceHistory> incomeList = [
       BalanceHistory(
           title: 'メンタ',
