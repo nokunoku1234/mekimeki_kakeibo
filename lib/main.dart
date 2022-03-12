@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:mekimeki_kakeibo/screen/set_budget_page.dart';
+import 'package:mekimeki_kakeibo/screen/home_page.dart';
 import 'package:mekimeki_kakeibo/utils/original_color.dart';
 
 void main() {
@@ -18,7 +18,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: OriginalColor.materialColor,
         fontFamily: 'RoundedMPlus',
       ),
-      home: const SetBudgetPage(),
+      home: const HomePage(),
     );
   }
 }
