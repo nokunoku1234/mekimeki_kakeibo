@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:mekimeki_kakeibo/component/text.dart';
-import 'package:mekimeki_kakeibo/component/screen_scaffold.dart';
 import 'package:mekimeki_kakeibo/entity/balance_history.dart';
 import 'package:mekimeki_kakeibo/utils/original_color.dart';
 import 'package:mekimeki_kakeibo/utils/provider.dart';
@@ -12,31 +11,28 @@ class SetBudgetPage extends StatelessWidget {
   const SetBudgetPage({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    print('SetBudgetPageをビルド');
-    return ScreenScaffold(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          WidgetUtils.buildHeader('予算設定'),
-          const SizedBox(height: 25),
-          buildSelectedMonth(),
-          const SizedBox(height: 25),
-          ...buildIncomeList(),
-          const SizedBox(height: 25),
-          ...buildSpendingList(),
-          Row(
-            textBaseline: TextBaseline.alphabetic,
-            mainAxisAlignment: MainAxisAlignment.end,
-            crossAxisAlignment: CrossAxisAlignment.baseline,
-            children: [
-              const UsefulTxt(),
-              MainText('月に使える金額:'),
-              const SizedBox(width: 5),
-              const UsefulAmountTxt(),
-            ],
-          )
-        ],
-      )
+    // print('SetBudgetPageをビルド');
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        ...WidgetUtils.buildHeader('予算設定'),
+        buildSelectedMonth(),
+        const SizedBox(height: 25),
+        ...buildIncomeList(),
+        const SizedBox(height: 25),
+        ...buildSpendingList(),
+        Row(
+          textBaseline: TextBaseline.alphabetic,
+          mainAxisAlignment: MainAxisAlignment.end,
+          crossAxisAlignment: CrossAxisAlignment.baseline,
+          children: [
+            const UsefulTxt(),
+            MainText('月に使える金額:'),
+            const SizedBox(width: 5),
+            const UsefulAmountTxt(),
+          ],
+        )
+      ],
     );
   }
 
@@ -80,7 +76,7 @@ class ShowMonthText extends ConsumerWidget {
 
   @override
   build(BuildContext context, WidgetRef ref) {
-    print('ShowMonthTextをビルド');
+    // print('ShowMonthTextをビルド');
     final DateTime date = ref.watch(setBudgetProvider).now;
     final String dateStr = DateFormat('yyyy/M').format(date);
     return MainText(dateStr);
@@ -93,7 +89,7 @@ class ChangeMonthArrow extends ConsumerWidget {
 
   @override
   build(BuildContext context, WidgetRef ref) {
-    print('ChangeMonthArrowをビルド');
+    // print('ChangeMonthArrowをビルド');
     return GestureDetector(
       child: Icon(isForward ? Icons.arrow_forward_ios_rounded : Icons.arrow_back_ios_rounded, color: OriginalColor.subColor,),
       onTap: () {
@@ -157,7 +153,7 @@ class AmountList extends ConsumerWidget {
 
   @override
   build(BuildContext context, WidgetRef ref) {
-    print('AmountListをビルド');
+    // print('AmountListをビルド');
     const double listHeight = 40;
     const double borderWidth = 1;
     double? height;
