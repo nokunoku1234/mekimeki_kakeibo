@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mekimeki_kakeibo/screen/set_budget_page.dart';
 import 'package:mekimeki_kakeibo/utils/original_color.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(const ProviderScope(child: MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -14,7 +15,8 @@ class MyApp extends StatelessWidget {
       title: 'メキメキ家計簿',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        primarySwatch: OriginalColor.materialColor
+        primarySwatch: OriginalColor.materialColor,
+        fontFamily: 'RoundedMPlus',
       ),
       home: const SetBudgetPage(),
     );
